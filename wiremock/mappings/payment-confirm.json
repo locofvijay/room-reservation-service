@@ -1,0 +1,22 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "url": "/host/credit-card-payment-api/payment-status",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": "$[?(@.paymentReference == 'CONFIRM_REF')]"
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "lastUpdateDate": "2026-02-10T00:00:00Z",
+      "status": "CONFIRMED"
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
