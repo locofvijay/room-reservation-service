@@ -27,7 +27,7 @@ The application follows microservice and event-driven architecture principles.
 * **WireMock** (local dev) to mock credit-card-payment-service
 * **Log4j2** for structured logging
 * **Lombok** to reduce boilerplate
-* **record** Immutable data classes, zero boilerplate. 
+* **record** for Immutable data classes, zero boilerplate. 
 * **Custom Exception Handling** for consistent error responses
 * **Docker Compose** for local environment setup
 
