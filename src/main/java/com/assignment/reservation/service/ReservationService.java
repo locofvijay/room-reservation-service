@@ -12,13 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.assignment.reservation.dto.ConfirmReservationRequest;
 import com.assignment.reservation.dto.ConfirmReservationResponse;
 import com.assignment.reservation.dto.PaymentStatusResponse;
+import com.assignment.reservation.entity.PaymentMode;
 import com.assignment.reservation.entity.Reservation;
 import com.assignment.reservation.entity.ReservationStatus;
 import com.assignment.reservation.entity.RoomSegment;
 import com.assignment.reservation.exception.InvalidReservationException;
 import com.assignment.reservation.exception.PaymentNotConfirmedException;
 import com.assignment.reservation.exception.ReservationNotFoundException;
-import com.assignment.reservation.entity.PaymentMode;
 import com.assignment.reservation.repository.ReservationRepository;
 
 import lombok.extern.log4j.Log4j2;
@@ -37,24 +37,24 @@ public class ReservationService {
 
     @Transactional
     public ConfirmReservationResponse confirm(ConfirmReservationRequest req) {
-        log.info("Confirm reservation request for {} room {}", req.getCustomerName(), req.getRoomNumber());
+        log.info("Confirm reservation request for {} room {}", req.customerName(), req.roomNumber());
 
-        long days = ChronoUnit.DAYS.between(req.getStartDate(), req.getEndDate()) + 1;
+        long days = ChronoUnit.DAYS.between(req.startDate(), req.endDate()) + 1;
         if (days <= 0 || days > 30) {
              throw new InvalidReservationException("Reservation length must be between 1 and 30 days");
         }
 
         Reservation r = new Reservation();
         r.setId(generateId());
-        r.setCustomerName(req.getCustomerName());
-        r.setRoomNumber(req.getRoomNumber());
-        r.setStartDate(req.getStartDate());
-        r.setEndDate(req.getEndDate());
-        r.setRoomSegment(RoomSegment.valueOf(req.getRoomSegment().toUpperCase()));
-        r.setPaymentMode(PaymentMode.valueOf(req.getPaymentMode().toUpperCase()));
-        r.setPaymentReference(req.getPaymentReference());
-        r.setAmount(req.getAmount());
-        r.setCurrency(req.getCurrency());
+        r.setCustomerName(req.customerName());
+        r.setRoomNumber(req.roomNumber());
+        r.setStartDate(req.startDate());
+        r.setEndDate(req.endDate());
+        r.setRoomSegment(RoomSegment.valueOf(req.roomSegment().toUpperCase()));
+        r.setPaymentMode(PaymentMode.valueOf(req.paymentMode().toUpperCase()));
+        r.setPaymentReference(req.paymentReference());
+        r.setAmount(req.amount());
+        r.setCurrency(req.currency());
         /****
          * Reservation r = Reservation.builder()
          * .id(generateId())
@@ -77,15 +77,15 @@ public class ReservationService {
             return new ConfirmReservationResponse(r.getId(), r.getStatus().name());
         } else if (r.getPaymentMode() == PaymentMode.CREDIT_CARD) {
             // blocking for simplicity - in prod use async/reactive or retries
-            Mono<PaymentStatusResponse> mono = creditCardClient.getPaymentStatus(req.getPaymentReference());
+            Mono<PaymentStatusResponse> mono = creditCardClient.getPaymentStatus(req.paymentReference());
             PaymentStatusResponse resp = mono.block();
-            if (resp != null && "CONFIRMED".equalsIgnoreCase(resp.getStatus())) {
+            if (resp != null && "CONFIRMED".equalsIgnoreCase(resp.status())) {
                 r.setStatus(ReservationStatus.CONFIRMED);
                 repo.save(r);
                 log.info("Reservation {} confirmed (credit-card)", r.getId());
                 return new ConfirmReservationResponse(r.getId(), r.getStatus().name());
             } else {
-                log.warn("Credit card payment not confirmed for ref {}", req.getPaymentReference());
+                log.warn("Credit card payment not confirmed for ref {}", req.paymentReference());
                 throw new PaymentNotConfirmedException("Credit card payment not confirmed");
 
             }

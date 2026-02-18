@@ -1,12 +1,10 @@
 package com.assignment.reservation.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
+/*@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentStatusRequest {
     private String paymentReference;
+}*/
+public record PaymentStatusRequest(String paymentReference) {
 }

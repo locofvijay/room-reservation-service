@@ -1,0 +1,10 @@
+spring:
+ 
+
+  creditcard:
+    api:
+      base-url: http://localhost:8081/host/credit-card-payment-api
+
+  app:
+    scheduler:
+      enabled: true

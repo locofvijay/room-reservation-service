@@ -1,13 +1,12 @@
 package com.assignment.reservation.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
+/*@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentStatusResponse {
     private String lastUpdateDate;
     private String status; // CONFIRMED / REJECTED
+} */
+
+public record PaymentStatusResponse(String lastUpdateDate, String status) {
 }

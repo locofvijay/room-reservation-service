@@ -1,5 +1,49 @@
 spring:
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
+  application:
+    name: room-reservation-service-test
+
+  datasource:
+    url: jdbc:h2:mem:reservations;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  main:
+    allow-bean-definition-overriding: true
+
   kafka:
-    bootstrap-servers: localhost:9092
+    # This will be overridden by @DynamicPropertySource in integration tests
+    #bootstrap-servers: localhost:9092
+    consumer:
+      group-id: reservation-service-group
+      auto-offset-reset: earliest
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+server:
+  port: 0   # random port for @LocalServerPort
+
+creditcard:
+  api:
+    base-url: http://localhost:8081/host/credit-card-payment-api
+
+app:
+  scheduler:
+    enabled: true
+  cancellation:
+    days-before: 2
+
+logging:
+  level:
+    com.assignment.reservation: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.kafka: DEBUG

@@ -2,6 +2,12 @@ HELP.md
 architectureDiagram.mermaid
 componentDiagram.mermaid
 sequenceDiagramConfirmAndBank-transferFlow.mermaid
+Assignment02_HotelReservation/correctedcreditcardpayment_api.yaml
+ForPPTSequence.jpg
+ForPPT_RoomReservationService.jpg
+Sequence_reservation_confirmation.png
+firstArchitecturalFlow.mermaid
+room_reservation_service.png
 
 target/
 .mvn/wrapper/maven-wrapper.jar

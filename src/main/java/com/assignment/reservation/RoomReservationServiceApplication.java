@@ -3,8 +3,7 @@ package com.assignment.reservation;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
-
-@SpringBootApplication
+@SpringBootApplication //(scanBasePackages= "controller")
 @EnableScheduling
 public class RoomReservationServiceApplication {
 
