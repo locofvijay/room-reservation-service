@@ -27,6 +27,7 @@ The application follows microservice and event-driven architecture principles.
 * **WireMock** (local dev) to mock credit-card-payment-service
 * **Log4j2** for structured logging
 * **Lombok** to reduce boilerplate
+* **record** Immutable data classes, zero boilerplate. 
 * **Custom Exception Handling** for consistent error responses
 * **Docker Compose** for local environment setup
 
@@ -289,19 +290,74 @@ jdbc:h2:mem:reservations
 ## Testing
 
 ### Unit Tests
-
-* Service logic validation
-* Credit card confirmation flow
-* Reservation validation
-
+* Location: src/test/java/**/*Test.java
+* Execution: Run via the Maven Surefire Plugin.
+* Scope: Fast execution; must not rely on external systems or resources.
 ### Integration Tests
+* Location: src/test/java/**/*IT.java
+* Execution: Run via the Maven Failsafe Plugin (using mvn verify).
+* Scope: End-to-end flows; may initialize containers, databases, or embedded servers.
+### Contract Tests
+* Status: Replaced Spring Cloud Contract Stub Runner with embedded WireMock.
+* Scope: Simulates contract-like behavior and external API dependencies when a physical stub JAR is unavailable. 
 
-* Kafka event processing using Testcontainers
+### Naming Convention
 
-Run tests:
+| Test Type         | Naming Pattern | Maven Plugin |
+| ----------------- | -------------- | ------------ |
+| Unit Tests        | `*Test.java`   | Surefire     |
+| Integration Tests | `*IT.java`     | Failsafe     |
+
+Examples:
+
+* `ReservationServiceTest.java` → Unit test
+* `KafkaConsumerIT.java` → Integration test
+* `CreditCardContractIT.java` → Integration / Contract test
+
+
+## Run Tests (Commands)
+
+### ▶ Run Unit Tests Only
 
 ```bash
 mvn test
+```
+
+Or explicitly:
+
+```bash
+mvn -DskipITs=true test
+```
+
+---
+
+### ▶ Run Integration Tests Only
+
+```bash
+mvn -DskipTests=true verify
+```
+
+---
+
+### ▶ Run All Tests (Recommended)
+
+```bash
+mvn verify
+```
+
+This runs:
+
+1. Unit tests (Surefire)
+2. Integration tests (Failsafe)
+
+---
+
+### ▶ Force Dependency Updates
+
+If Maven caches a failed dependency:
+
+```bash
+mvn -U clean verify
 ```
 
 ---
