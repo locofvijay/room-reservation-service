@@ -86,7 +86,7 @@ class KafkaConsumerIT {
     void whenBankTransferEventArrives_reservationBecomesConfirmed() {
         Reservation toSave = new Reservation();
         toSave.setId(UUID.randomUUID().toString());
-        toSave.setCustomerName("Test");mvn -DskipTests=false verify
+        toSave.setCustomerName("Test");
         toSave.setRoomNumber("200");
         toSave.setStartDate(java.time.LocalDate.now().plusDays(1));
         toSave.setEndDate(java.time.LocalDate.now().plusDays(2));
