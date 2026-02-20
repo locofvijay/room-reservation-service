@@ -2,7 +2,6 @@ package com.assignment.reservation.kafka;
 
 import java.math.BigDecimal;
 
-
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +22,7 @@ public class BankTransferListener {
     }
 
     @KafkaListener(topics = "bank-transfer-payment-update", groupId = "reservation-service-group")
-    public void listen(String payload) {
+    public void listen(String payload){
         log.info("Received bank-transfer event: {}", payload);
         try {
             JsonNode n = mapper.readTree(payload);

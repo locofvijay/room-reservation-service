@@ -41,7 +41,7 @@ class ReservationServiceTest {
     void whenCashPayment_thenReservationConfirmed() {
         ConfirmReservationRequest req = new ConfirmReservationRequest(
                 "Alice",
-                "101", // <-- string now
+                "101", 
                 LocalDate.now().plusDays(5),
                 LocalDate.now().plusDays(6),
                 "SMALL",

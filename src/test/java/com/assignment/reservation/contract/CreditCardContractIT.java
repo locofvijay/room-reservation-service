@@ -82,7 +82,7 @@ class CreditCardContractIT {
                 request,
                 String.class);
 
-        assertThat(response.getStatusCodeValue()).isEqualTo(200);
+        assertThat(response.getStatusCode().value()).isEqualTo(200);
 
         JsonNode bodyJson = MAPPER.readTree(response.getBody());
         assertThat(bodyJson.path("status").asText()).isEqualTo("CONFIRMED");
@@ -98,7 +98,7 @@ class CreditCardContractIT {
                 request,
                 String.class);
 
-        assertThat(response.getStatusCodeValue()).isEqualTo(200);
+        assertThat(response.getStatusCode().value()).isEqualTo(200);
 
         JsonNode bodyJson = MAPPER.readTree(response.getBody());
         assertThat(bodyJson.path("status").asText()).isEqualTo("REJECTED");
